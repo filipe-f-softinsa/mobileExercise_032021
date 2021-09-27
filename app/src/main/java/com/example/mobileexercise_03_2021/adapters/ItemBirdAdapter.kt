@@ -22,7 +22,7 @@ class ItemBirdAdapter(private val context: Context,private var list : List<Bird>
         val bird = list[position]
 
         holder.binding.birdTvTitle.text = bird.title
-        Glide.with(context).load(Uri.parse(bird.image)).placeholder(R.drawable.ic_launcher_background).into(holder.binding.birdTvImage)
+        Glide.with(context).load(bird.image).into(holder.binding.birdTvImage)
     }
 
     override fun getItemCount(): Int {

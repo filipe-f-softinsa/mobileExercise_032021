@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mobileexercise_03_2021.models.Bird
+import com.example.mobileexercise_03_2021.models.Photo
+import com.example.mobileexercise_03_2021.models.Size
 import com.example.mobileexercise_03_2021.network.ApiClient
+import com.example.mobileexercise_03_2021.network.BirdResponse
 import com.example.mobileexercise_03_2021.network.Repository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 /**
  * Creates the ViewModel that allows to request the data and update it in the View
@@ -44,7 +46,8 @@ class MainViewModel(private val repository: Repository = Repository(ApiClient.se
                 for (photo in result.photos.photo) {
                     try {
                         val resultImages = repository.getSizes(photo.id)
-                        val bird = Bird(photo.id, photo.title, resultImages.sizes.size[1].source)
+                        val size : Size = resultImages.sizes.size[1]
+                        val bird = Bird(photo.id, photo.title, size.source,size.width,size.height)
                         birdList.add(bird)
                         _birdsLiveData.postValue(birdList)
                         Log.i("BirdList", "Added Bird ${bird.id}")
