@@ -8,58 +8,52 @@ import androidx.lifecycle.viewModelScope
 import com.example.mobileexercise_03_2021.models.Bird
 import com.example.mobileexercise_03_2021.network.ApiClient
 import com.example.mobileexercise_03_2021.network.Repository
-import com.example.mobileexercise_03_2021.utils.Constants
-import com.example.mobileexercise_03_2021.utils.State
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
  * Creates the ViewModel that allows to request the data and update it in the View
  */
-
 class MainViewModel(private val repository: Repository = Repository(ApiClient.service)) : ViewModel(){
-    private var _birdsLiveData = MutableLiveData<State>()
-    val birdLiveData : LiveData<State>
+
+    /**
+     * Creates a live data that will observe the data posted in fetchBirds
+     */
+    private var _birdsLiveData = MutableLiveData<List<Bird>>()
+    val birdLiveData : LiveData<List<Bird>>
         get() = _birdsLiveData
 
+    /**
+     * Once created this object it will immediately start the fetchBirds function
+     */
     init {
         fetchBirds()
     }
 
     private fun fetchBirds(){
         val birdList = ArrayList<Bird>()
+
         /**
-         * Use Dispatchers.IO for coroutines that fetch data
+         * Uses coroutines in order to perform the task safely in the background
+         * Dispatchers.IO is used doe to being the recommended dispatcher for performing connections and fetch data to apis
          */
-        _birdsLiveData.postValue(State.Loading(null))
+        _birdsLiveData.postValue(birdList)
         viewModelScope.launch(Dispatchers.IO) {
             try{
-                val responseBirdCall = repository.getBirds("1")
-                launch(Dispatchers.Default) {
-                    for (photo in responseBirdCall.photos.photo){
-                        launch(Dispatchers.IO) {
-                            try {
-                                Log.i("Photo", photo.id)
-                                val responseSizeCall = repository.getSizes(photo.id)
-                                for(size in responseSizeCall.sizes.size){
-                                    if(size.label == Constants.LABEL){
-                                        val bird = Bird(photo.id,photo.title,size.source)
-                                        birdList.add(bird)
-                                        Log.i("Bird", "Added ${photo.id}")
-
-                                    }
-                                }
-                            }catch (e : Exception) {
-                                Log.e("getSizes", e.message!!)
-                                _birdsLiveData.postValue(State.Error(null,e.message!!))
-                            }
-                        }
+                val result = repository.getBirds("1")
+                for (photo in result.photos.photo) {
+                    try {
+                        val resultImages = repository.getSizes(photo.id)
+                        val bird = Bird(photo.id, photo.title, resultImages.sizes.size[1].source)
+                        birdList.add(bird)
+                        _birdsLiveData.postValue(birdList)
+                        Log.i("BirdList", "Added Bird ${bird.id}")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                    _birdsLiveData.postValue(State.Success(birdList))
                 }
             }catch (e : Exception){
-                Log.e("getBirds", e.message!!)
-                _birdsLiveData.postValue(State.Error(null,e.message!!))
+                e.printStackTrace()
             }
         }
     }
