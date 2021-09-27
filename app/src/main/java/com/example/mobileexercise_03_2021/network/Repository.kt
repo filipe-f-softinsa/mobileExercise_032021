@@ -9,5 +9,5 @@ class Repository(private val apiService: ApiService) {
 
     suspend fun getBirds(page : String) = apiService.getBirds(Constants.METHOD_SEARCH, Constants.API_KEY, Constants.TAGS, page, Constants.FORMAT, Constants.NO_JSON_CALLBACK)
 
-    suspend fun getSizes(id : String) = apiService.getSizes(Constants.METHOD_SIZE, Constants.API_KEY, id, Constants.FORMAT, Constants.NO_JSON_CALLBACK)
+    suspend fun getSizes(photoId : String) = apiService.getSizes(Constants.METHOD_SIZE, Constants.API_KEY, photoId, Constants.FORMAT, Constants.NO_JSON_CALLBACK)
 }

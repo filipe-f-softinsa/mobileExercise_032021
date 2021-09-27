@@ -20,10 +20,10 @@ interface ApiService {
                          @Query("nojsoncallback") noJsonCallback : String
     ) : BirdResponse
 
-    @GET("service/rest/")
+    @GET("services/rest/")
     suspend fun getSizes(@Query("method") method: String,
                          @Query("api_key") apiKey : String,
-                         @Query("photo_id") id : String,
+                         @Query("photo_id") photoId : String,
                          @Query("format") format : String,
                          @Query("nojsoncallback") noJsonCallback : String
     ) : SizesResponse
