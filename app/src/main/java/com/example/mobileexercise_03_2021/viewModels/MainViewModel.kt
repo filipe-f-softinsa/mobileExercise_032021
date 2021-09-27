@@ -13,6 +13,10 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.SocketTimeoutException
 
+/**
+ * Creates the ViewModel that allows to request the data and update it in the View
+ */
+
 class MainViewModel(private val repository: Repository = Repository(ApiClient.service)) : ViewModel(){
     private var _birdsLiveData = MutableLiveData<List<Bird>>()
     val birdLiveData : LiveData<List<Bird>>
@@ -32,7 +36,7 @@ class MainViewModel(private val repository: Repository = Repository(ApiClient.se
                         val responseSizeCall = repository.getSizes(photo.id)
                         for(size in responseSizeCall.sizes.size){
                             if(size.label == Constants.LABEL){
-                                val bird = Bird(photo.id,size.source)
+                                val bird = Bird(photo.id,photo.title,size.source)
                                 birdList.add(bird)
                             }
                         }
