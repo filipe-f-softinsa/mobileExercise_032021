@@ -14,4 +14,6 @@ object Constants {
     const val NO_JSON_CALLBACK = "1"
     const val LABEL = "Large"
     const val CACHE_SIZE : Long = (10 * 1024 * 1024).toLong()
+    const val SHARED_PREFS = "shared_prefs"
+    const val BIRD_LIST = "bird_list"
 }
