@@ -1,11 +1,9 @@
 package com.example.mobileexercise_03_2021.viewModels
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.mobileexercise_03_2021.models.Bird
 import com.example.mobileexercise_03_2021.network.ApiClient
 import com.example.mobileexercise_03_2021.network.Repository
@@ -14,9 +12,10 @@ import kotlinx.coroutines.*
 /**
  * Creates the ViewModel that allows to request the data and update it in the View
  */
-class MainViewModel(context: Context) : ViewModel(){
+class MainViewModel(application: Application) : AndroidViewModel(application){
 
-    private var repository: Repository = Repository(ApiClient(context).service)
+
+    private var repository: Repository = Repository(ApiClient(application.cacheDir).service)
 
     /**
      * Creates a live data that will observe the data posted in fetchBirds

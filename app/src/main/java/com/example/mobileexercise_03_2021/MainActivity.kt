@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mobileexercise_03_2021.adapters.ItemBirdAdapter
 import com.example.mobileexercise_03_2021.databinding.ActivityMainBinding
@@ -24,7 +25,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
-    private lateinit var mainViewModel: MainViewModel
     private val adapter = ItemBirdAdapter(this,ArrayList())
     private lateinit var progressDialog : Dialog
     private lateinit var sharedPreferences: SharedPreferences
@@ -38,9 +38,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.mainTb)
         setupBirdRecyclerView()
-        mainViewModel= MainViewModel(this)
+        val mainViewModel: MainViewModel by lazy {
+            ViewModelProvider(this)[MainViewModel::class.java]
+        }
         sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS,Context.MODE_PRIVATE)
-
 
 
         mainViewModel.birdLiveData.observe(this,{
