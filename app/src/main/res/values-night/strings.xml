@@ -1,6 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MobileExercise_03_2021</string>
-    <string name="flickr_bird_images">Flickr Bird Images</string>
     <string name="please_wait">Please Wait</string>
     <string name="no_data_to_show">No Data to Show</string>
 </resources>
