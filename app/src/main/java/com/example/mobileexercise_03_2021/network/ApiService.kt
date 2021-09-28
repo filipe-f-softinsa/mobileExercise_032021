@@ -1,6 +1,7 @@
 package com.example.mobileexercise_03_2021.network
 
 import com.example.mobileexercise_03_2021.utils.Constants
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -18,7 +19,7 @@ interface ApiService {
                          @Query("page") page : String,
                          @Query("format") format : String,
                          @Query("nojsoncallback") noJsonCallback : String
-    ) : BirdResponse
+    ) : Response<BirdResponse>
 
     @GET("services/rest/")
     suspend fun getSizes(@Query("method") method: String,
@@ -26,6 +27,6 @@ interface ApiService {
                          @Query("photo_id") photoId : String,
                          @Query("format") format : String,
                          @Query("nojsoncallback") noJsonCallback : String
-    ) : SizesResponse
+    ) : Response<SizesResponse>
 
 }

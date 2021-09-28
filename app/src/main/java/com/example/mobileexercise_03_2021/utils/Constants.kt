@@ -13,4 +13,5 @@ object Constants {
     const val FORMAT = "json"
     const val NO_JSON_CALLBACK = "1"
     const val LABEL = "Large"
+    const val CACHE_SIZE : Long = (10 * 1024 * 1024).toLong()
 }
