@@ -46,8 +46,7 @@ class MainViewModel(private val repository: Repository = Repository(ApiClient.se
                 for (photo in result.photos.photo) {
                     try {
                         val resultImages = repository.getSizes(photo.id)
-                        val size : Size = resultImages.sizes.size[1]
-                        val bird = Bird(photo.id, photo.title, size.source,size.width,size.height)
+                        val bird = Bird(photo.id, photo.title, resultImages.sizes.size)
                         birdList.add(bird)
                         _birdsLiveData.postValue(birdList)
                         Log.i("BirdList", "Added Bird ${bird.id}")

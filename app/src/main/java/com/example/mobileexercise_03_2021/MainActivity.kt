@@ -1,8 +1,11 @@
 package com.example.mobileexercise_03_2021
 
 import android.app.Dialog
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -36,6 +39,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBirdRecyclerView(){
         binding.mainRv.layoutManager = GridLayoutManager(this,2)
+        adapter.setOnClickListenerItemBird(object : ItemBirdAdapter.OnClickListenerItemBird{
+            override fun onClickItem(uri : Uri) {
+                val intent = Intent()
+                intent.action = Intent.ACTION_VIEW
+                intent.setDataAndType(uri, "image/*")
+                startActivity(intent)
+            }
+        })
         binding.mainRv.adapter = this.adapter
         showProgressDialog()
     }
